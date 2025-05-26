@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini world  </title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini World</title>
   <style>
     body {
       font-family: Tahoma, sans-serif;
@@ -19,15 +19,20 @@
       text-align: center;
     }
     nav {
-      background: #0097a7;
-      padding: 10px;
-      text-align: center;
+      background-color: #00bcd4;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
     }
     nav a {
       color: white;
-      margin: 0 10px;
+      margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
+      font-size: 1.1em;
+    }
+    nav a:hover {
+      text-decoration: underline;
     }
     main {
       padding: 20px;
@@ -42,29 +47,116 @@
       bottom: 0;
       width: 100%;
     }
-  </style>
+<style>
+  body {
+    font-family: Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f0f0f0;
+    color: #333;
+  }
+  header {
+    background-color: #00bcd4;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  nav {
+    background-color: #00bcd4;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  nav a:hover {
+    text-decoration: underline;
+  }
+  main {
+    padding: 20px;
+    text-align: center;
+  }
+  footer {
+    background-color: #00bcd4;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  /* 👇 قائمة "منتجاتنا" المنسدلة */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #00bcd4;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    text-align: right;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #0097a7;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+</style>
+
+
 </head>
 <body>
 
   <header>
-    <h1>mini world </h1>
+    <h1>Mini World</h1>
     <p>نصنع المتعة والتعلّم لأطفال المستقبل!</p>
   </header>
 
   <nav>
-    <a href="#">الرئيسية</a>
-    <a href="#">عن الشركة</a>
-    <a href="#">منتجاتنا</a>
-    <a href="#">اتصل بنا</a>
-  </nav>
+  <a href="#">الرئيسية</a>
+  <a href="#">عن الشركة</a>
+
+  <div class="dropdown">
+  <a href="#">منتجاتنا ▼</a>
+  <div class="dropdown-content">
+    <a href="refillable.html">ألعاب قابلة للتعبئة</a>
+    <a href="figures.html">مجسمات بلاستيكية</a>
+    <a href="smart.html">ألعاب الذكاء</a>
+    <a href="fun.html">ألعاب ترفيهية</a>
+  </div>
+</div>
+
+  <a href="#">اتصل بنا</a>
+</nav>
 
   <main>
-    <h2>  welcome </h2>
+    <h2>مرحباً بكم</h2>
     <p>نحن متخصصون في تصنيع ألعاب بلاستيكية تعليمية ومرحة بجودة عالية.</p>
   </main>
 
   <footer>
-    &copy; 2025 mini world - جميع الحقوق محفوظة
+    &copy; 2025 Mini World - جميع الحقوق محفوظة
   </footer>
 
 </body>
