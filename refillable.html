@@ -1,121 +1,209 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>طلبية منتجات</title>
-  <style>
-    body { font-family: Arial; margin: 20px; background-color: #f9f9f9; }
-    input, select, button { margin: 5px; padding: 5px; }
-    .product { border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: white; }
-    img { width: 150px; height: auto; }
-    .search-box { margin-bottom: 20px; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>طلبية منتجات - مراجعة وتعديل</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f5;
+    margin: 20px;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  .product {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  .product div {
+    flex: 1;
+  }
+  .product button {
+    background: #2ecc71;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .product button:hover {
+    background: #27ae60;
+  }
+  #orderSummary {
+    margin-top: 30px;
+    border-top: 2px solid #333;
+    padding-top: 15px;
+  }
+  #orderSummary h3 {
+    margin-bottom: 15px;
+  }
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  .order-item input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .order-item button {
+    background: #e74c3c;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .order-item button:hover {
+    background: #c0392b;
+  }
+  #sendOrderBtn {
+    background: #25d366;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  #sendOrderBtn:hover {
+    background: #1ebe5b;
+  }
+</style>
 </head>
 <body>
+  <div class="container">
+    <h2>طلبية منتجات</h2>
 
-<h2>إنشاء طلبية</h2>
+    <div id="productsList">
+      <div class="product">
+        <div>سيارة بلاستيك</div>
+        <div>
+          <input type="number" id="qty-1" min="1" placeholder="الكمية" style="width:70px" />
+          <button onclick="addToOrder('سيارة بلاستيك', 'qty-1', 'قطعة')">أضف</button>
+        </div>
+      </div>
+      <div class="product">
+        <div>طقم أدوات</div>
+        <div>
+          <input type="number" id="qty-2" min="1" placeholder="الكمية" style="width:70px" />
+          <button onclick="addToOrder('طقم أدوات', 'qty-2', 'طقم')">أضف</button>
+        </div>
+      </div>
+      <div class="product">
+        <div>دمية ناعمة</div>
+        <div>
+          <input type="number" id="qty-3" min="1" placeholder="الكمية" style="width:70px" />
+          <button onclick="addToOrder('دمية ناعمة', 'qty-3', 'قطعة')">أضف</button>
+        </div>
+      </div>
+    </div>
 
-<div class="search-box">
-  <input type="text" id="searchName" placeholder="بحث بالاسم" oninput="filterProducts()">
-  <input type="text" id="searchSize" placeholder="بحث بالقياس" oninput="filterProducts()">
-  <input type="text" id="searchCategory" placeholder="بحث بالفئة" oninput="filterProducts()">
-</div>
-
-<div id="productsContainer">
-  <!-- مثال على منتج -->
-  <div class="product" data-name="سيارة صغيرة" data-size="10x5" data-category="ألعاب ترفيهية">
-    <h3>سيارة صغيرة</h3>
-    <img src="car.jpg" alt="صورة المنتج">
-    <p>الطول: 10 سم</p>
-    <p>العرض: 5 سم</p>
-    <p>الوزن: 200 غرام</p>
-    <p>الفئة: ألعاب ترفيهية</p>
-    <p>الوصف: سيارة بلاستيكية صغيرة ممتعة للأطفال</p>
-    <p>ملاحظات: متوفرة بألوان متعددة</p>
-    <p>وحدة المبيع: <strong>القطعة</strong></p>
-    <input type="number" placeholder="الكمية" id="qty-1" min="1">
-    <button onclick="addToOrder('سيارة صغيرة', 'qty-1', 'القطعة')">أضف للطلبية</button>
+    <div id="orderSummary" style="display:none;">
+      <h3>مراجعة الطلبية</h3>
+      <div id="orderItems"></div>
+      <button id="sendOrderBtn" onclick="sendOrder()">📦 إرسال الطلبية عبر واتساب</button>
+    </div>
   </div>
-
-  <div class="product" data-name="كيس مكعبات" data-size="20x15" data-category="ألعاب ذكاء">
-    <h3>كيس مكعبات</h3>
-    <img src="blocks.jpg" alt="صورة المنتج">
-    <p>الطول: 20 سم</p>
-    <p>العرض: 15 سم</p>
-    <p>الوزن: 800 غرام</p>
-    <p>الفئة: ألعاب ذكاء</p>
-    <p>الوصف: مجموعة مكعبات تعليمية ملونة</p>
-    <p>ملاحظات: مناسبة لعمر +3</p>
-    <p>وحدة المبيع: <strong>الكيلو</strong></p>
-    <input type="number" placeholder="الكمية" id="qty-2" min="1">
-    <button onclick="addToOrder('كيس مكعبات', 'qty-2', 'الكيلو')">أضف للطلبية</button>
-  </div>
-
-  <div class="product" data-name="دمية ناعمة" data-size="15x10" data-category="مجسمات بلاستيكية">
-    <h3>دمية ناعمة</h3>
-    <img src="doll.jpg" alt="صورة المنتج">
-    <p>الطول: 15 سم</p>
-    <p>العرض: 10 سم</p>
-    <p>الوزن: 150 غرام</p>
-    <p>الفئة: مجسمات بلاستيكية</p>
-    <p>الوصف: دمية بلاستيكية مرنة ومحببة للأطفال</p>
-    <p>ملاحظات: تأتي ضمن علبة شفافة</p>
-    <p>وحدة المبيع: <strong>القطعة</strong></p>
-    <input type="number" placeholder="الكمية" id="qty-3" min="1">
-    <button onclick="addToOrder('دمية ناعمة', 'qty-3', 'القطعة')">أضف للطلبية</button>
-  </div>
-</div>
-
-<hr>
-
-<button onclick="sendOrder()">إرسال الطلبية عبر واتساب</button>
 
 <script>
   let order = [];
 
-  function addToOrder(productName, qtyId, unit) {
-    const quantity = document.getElementById(qtyId).value;
-    if (!quantity || quantity <= 0) return alert("يرجى إدخال كمية صحيحة");
+  function addToOrder(name, qtyId, unit) {
+    const qtyInput = document.getElementById(qtyId);
+    const qty = Number(qtyInput.value);
+    if (!qty || qty <= 0) {
+      alert("يرجى إدخال كمية صحيحة أكبر من صفر");
+      return;
+    }
+    // لو المنتج موجود بالفعل نزيد الكمية بدل الإضافة كمنتج جديد
+    const existing = order.find(item => item.name === name);
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      order.push({ name, qty, unit });
+    }
+    qtyInput.value = ""; // نظف حقل الكمية بعد الإضافة
+    renderOrderSummary();
+  }
 
-    order.push({ name: productName, qty: quantity, unit: unit });
-    alert("تمت الإضافة للطلبية!");
+  function renderOrderSummary() {
+    const orderDiv = document.getElementById("orderSummary");
+    const orderItemsDiv = document.getElementById("orderItems");
+    if (order.length === 0) {
+      orderDiv.style.display = "none";
+      orderItemsDiv.innerHTML = "";
+      return;
+    }
+    orderDiv.style.display = "block";
+    orderItemsDiv.innerHTML = "";
+
+    order.forEach((item, index) => {
+      const itemDiv = document.createElement("div");
+      itemDiv.classList.add("order-item");
+
+      itemDiv.innerHTML = `
+        <div>${item.name}</div>
+        <div>
+          <input type="number" min="1" value="${item.qty}" onchange="updateQty(${index}, this.value)" />
+          ${item.unit}
+          <button onclick="removeItem(${index})">حذف</button>
+        </div>
+      `;
+
+      orderItemsDiv.appendChild(itemDiv);
+    });
+  }
+
+  function updateQty(index, newQty) {
+    newQty = Number(newQty);
+    if (!newQty || newQty <= 0) {
+      alert("الكمية يجب أن تكون رقم أكبر من صفر");
+      renderOrderSummary();
+      return;
+    }
+    order[index].qty = newQty;
+  }
+
+  function removeItem(index) {
+    order.splice(index, 1);
+    renderOrderSummary();
   }
 
   function sendOrder() {
-    if (order.length === 0) return alert("لا توجد منتجات في الطلبية");
-
+    if (order.length === 0) {
+      alert("الطلبية فارغة، الرجاء إضافة منتجات أولاً");
+      return;
+    }
     let message = "طلبية جديدة:\n";
     order.forEach(item => {
       message += `• ${item.name}: ${item.qty} ${item.unit}\n`;
     });
-
-    const encoded = encodeURIComponent(message);
-    const phone = "963991952594"; // غيّري هذا لرقمك الفعلي مع رمز الدولة
-    const waUrl = `https://wa.me/${phone}?text=${encoded}`;
-
-    window.open(waUrl, "_blank");
-  }
-
-  function filterProducts() {
-    const name = document.getElementById("searchName").value.toLowerCase();
-    const size = document.getElementById("searchSize").value.toLowerCase();
-    const category = document.getElementById("searchCategory").value.toLowerCase();
-
-    const products = document.querySelectorAll(".product");
-    products.forEach(product => {
-      const productName = product.dataset.name.toLowerCase();
-      const productSize = product.dataset.size.toLowerCase();
-      const productCategory = product.dataset.category.toLowerCase();
-
-      const match = productName.includes(name) &&
-                    productSize.includes(size) &&
-                    productCategory.includes(category);
-
-      product.style.display = match ? "block" : "none";
-    });
+    const encodedMsg = encodeURIComponent(message);
+    const phone = "963954284487"; // عدلي الرقم مع رمز دولتك بدون أصفار أو +
+    const url = `https://wa.me/${phone}?text=${encodedMsg}&app_absent=0`;
+    window.location.href = url;
   }
 </script>
-
 </body>
 </html>
