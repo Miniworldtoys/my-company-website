@@ -1,39 +1,121 @@
-<main>
-  <h2>ألعاب قابلة للتعبئة</h2>
-  <div class="products">
-    <div class="product">
-      <img src="imagesfillables/بيضة بطريق صغيرة.PNG" alt="لعبة 1" />
-      <p>بيضة بلاستيكية على شكل بطريق مع اطراف وقبعة قابلة للفك والتركيب املأها بالمفاجآت      .</p>
-    </div>
-    <div class="product">
-      <img src="imagesfillables/بيضة نعامة.PNG" alt="لعبة 2" />
-      <p>بيضة بلاستيكية على شكل بيض النعام يمكن ان تكون شفافة لرؤية المفاجآت او ملونة حسب الطلب         .</p>
-    </div>
-    <div class="product">
-      <img src="imagesfillables/بسكليت.png" alt="لعبة 3" />
-      <p>تصميم مبتكر لاضافة المرح مع الغذاء دراجة بلاستيكية مع دواليب قابلة للتعبئة بأشهى الحلويات </p>
-    </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلبية منتجات</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background-color: #f9f9f9; }
+    input, select, button { margin: 5px; padding: 5px; }
+    .product { border: 1px solid #ccc; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: white; }
+    img { width: 150px; height: auto; }
+    .search-box { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+<h2>إنشاء طلبية</h2>
+
+<div class="search-box">
+  <input type="text" id="searchName" placeholder="بحث بالاسم" oninput="filterProducts()">
+  <input type="text" id="searchSize" placeholder="بحث بالقياس" oninput="filterProducts()">
+  <input type="text" id="searchCategory" placeholder="بحث بالفئة" oninput="filterProducts()">
+</div>
+
+<div id="productsContainer">
+  <!-- مثال على منتج -->
+  <div class="product" data-name="سيارة صغيرة" data-size="10x5" data-category="ألعاب ترفيهية">
+    <h3>سيارة صغيرة</h3>
+    <img src="car.jpg" alt="صورة المنتج">
+    <p>الطول: 10 سم</p>
+    <p>العرض: 5 سم</p>
+    <p>الوزن: 200 غرام</p>
+    <p>الفئة: ألعاب ترفيهية</p>
+    <p>الوصف: سيارة بلاستيكية صغيرة ممتعة للأطفال</p>
+    <p>ملاحظات: متوفرة بألوان متعددة</p>
+    <p>وحدة المبيع: <strong>القطعة</strong></p>
+    <input type="number" placeholder="الكمية" id="qty-1" min="1">
+    <button onclick="addToOrder('سيارة صغيرة', 'qty-1', 'القطعة')">أضف للطلبية</button>
   </div>
-</main>
-<style>.products {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
 
-.product {
-  background-color: white;
-  border-radius: 10px;
-  padding: 15px;
-  width: 250px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  text-align: center;
-}
+  <div class="product" data-name="كيس مكعبات" data-size="20x15" data-category="ألعاب ذكاء">
+    <h3>كيس مكعبات</h3>
+    <img src="blocks.jpg" alt="صورة المنتج">
+    <p>الطول: 20 سم</p>
+    <p>العرض: 15 سم</p>
+    <p>الوزن: 800 غرام</p>
+    <p>الفئة: ألعاب ذكاء</p>
+    <p>الوصف: مجموعة مكعبات تعليمية ملونة</p>
+    <p>ملاحظات: مناسبة لعمر +3</p>
+    <p>وحدة المبيع: <strong>الكيلو</strong></p>
+    <input type="number" placeholder="الكمية" id="qty-2" min="1">
+    <button onclick="addToOrder('كيس مكعبات', 'qty-2', 'الكيلو')">أضف للطلبية</button>
+  </div>
 
-.product img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-</style>
+  <div class="product" data-name="دمية ناعمة" data-size="15x10" data-category="مجسمات بلاستيكية">
+    <h3>دمية ناعمة</h3>
+    <img src="doll.jpg" alt="صورة المنتج">
+    <p>الطول: 15 سم</p>
+    <p>العرض: 10 سم</p>
+    <p>الوزن: 150 غرام</p>
+    <p>الفئة: مجسمات بلاستيكية</p>
+    <p>الوصف: دمية بلاستيكية مرنة ومحببة للأطفال</p>
+    <p>ملاحظات: تأتي ضمن علبة شفافة</p>
+    <p>وحدة المبيع: <strong>القطعة</strong></p>
+    <input type="number" placeholder="الكمية" id="qty-3" min="1">
+    <button onclick="addToOrder('دمية ناعمة', 'qty-3', 'القطعة')">أضف للطلبية</button>
+  </div>
+</div>
+
+<hr>
+
+<button onclick="sendOrder()">إرسال الطلبية عبر واتساب</button>
+
+<script>
+  let order = [];
+
+  function addToOrder(productName, qtyId, unit) {
+    const quantity = document.getElementById(qtyId).value;
+    if (!quantity || quantity <= 0) return alert("يرجى إدخال كمية صحيحة");
+
+    order.push({ name: productName, qty: quantity, unit: unit });
+    alert("تمت الإضافة للطلبية!");
+  }
+
+  function sendOrder() {
+    if (order.length === 0) return alert("لا توجد منتجات في الطلبية");
+
+    let message = "طلبية جديدة:\n";
+    order.forEach(item => {
+      message += `• ${item.name}: ${item.qty} ${item.unit}\n`;
+    });
+
+    const encoded = encodeURIComponent(message);
+    const phone = "963991952594"; // غيّري هذا لرقمك الفعلي مع رمز الدولة
+    const waUrl = `https://wa.me/${phone}?text=${encoded}`;
+
+    window.open(waUrl, "_blank");
+  }
+
+  function filterProducts() {
+    const name = document.getElementById("searchName").value.toLowerCase();
+    const size = document.getElementById("searchSize").value.toLowerCase();
+    const category = document.getElementById("searchCategory").value.toLowerCase();
+
+    const products = document.querySelectorAll(".product");
+    products.forEach(product => {
+      const productName = product.dataset.name.toLowerCase();
+      const productSize = product.dataset.size.toLowerCase();
+      const productCategory = product.dataset.category.toLowerCase();
+
+      const match = productName.includes(name) &&
+                    productSize.includes(size) &&
+                    productCategory.includes(category);
+
+      product.style.display = match ? "block" : "none";
+    });
+  }
+</script>
+
+</body>
+</html>
