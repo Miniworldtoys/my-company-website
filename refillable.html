@@ -716,7 +716,7 @@ function sendOrder() {
     const product = products.find(p => p.id == id);
     orderMessage += `${product.name} - الكمية: ${order[id]}\n`;
   }
-  const phoneNumber = '00963991952594';
+  const phoneNumber = '963991952594';
   const message = encodeURIComponent(orderMessage);
   window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
 }
